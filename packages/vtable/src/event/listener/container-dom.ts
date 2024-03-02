@@ -157,11 +157,11 @@ export function bindContainerDomListener(eventManager: EventManager) {
         // } else {
         //   (e as any).clipboardData.setData('text/plain', data); // Chrome, Firefox
         // }
-        const parsedCellData = data.trimEnd().toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        const parsedCellData = data.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/\r\n/g, '</td></tr><tr><td>').replace(/\t/g, '</td><td>').replace(/(<br(\s*|\/)>(\r\n|\n)?|\r\n|\n)/g, '<br>\r\n').replace(/\x20{2,}/gi, substring => {
           // excel空格序列化
           return `<span style="mso-spacerun: yes">${'&nbsp;'.repeat(substring.length - 1)} </span>`;
-        }).replace(/\t/gi, '&#9;');
+        });
         const result = `<table><tbody><tr><td>${parsedCellData}</td></tr></tbody></table>`;
         navigator.clipboard.writeText(result);
         navigator.clipboard.write([
